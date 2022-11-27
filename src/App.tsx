@@ -16,6 +16,8 @@ function App() {
         <Box2 dark={dark}>
         </Box2>
         <h2>test</h2>
+        <h3>Test test</h3>
+        <button>hello</button>
       </Top>
     </Body>
   );
