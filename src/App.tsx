@@ -39,7 +39,6 @@ const Box2 = styled.div<Props>`
 `
 
 
-
 const Top = styled.div<Props>`
   width: 100%;
   height: 200px;
