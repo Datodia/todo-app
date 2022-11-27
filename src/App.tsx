@@ -13,9 +13,9 @@ function App() {
     <Body dark={dark}>
       <Top dark={dark}>
         <Header setDark={setDark} dark={dark} />
-        <Box dark={dark}></Box>
         <Box2 dark={dark}>
         </Box2>
+        <h2>test</h2>
       </Top>
     </Body>
   );
