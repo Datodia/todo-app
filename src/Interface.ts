@@ -4,4 +4,5 @@ export interface Props {
     checked?: boolean;
     setChecked?: any;
     completed?: boolean;
+    value?: string;
 }
