@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Props } from "../../Interface"
 import { useState } from 'react'
 
-export const TodoList = ({ dark }: Props) => {
+export const TodoList = ({ dark, value }: Props) => {
 
     const [checked, setChecked] = useState<boolean>(false)
     const [newTask, setNewTask] = useState<string>("")
@@ -13,6 +13,7 @@ export const TodoList = ({ dark }: Props) => {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         setNewTask(e.target.value)
     }
 
@@ -23,7 +24,11 @@ export const TodoList = ({ dark }: Props) => {
             taskName: newTask,
             completed: checked
         }
-        setTodoList([...todoList, task])
+        if (newTask !== '' && newTask.trim()) {
+            setTodoList([...todoList, task])
+            setNewTask("")
+        }
+
     }
 
     const deleteTask = (id: number) => {
@@ -50,23 +55,26 @@ export const TodoList = ({ dark }: Props) => {
 
     return (
         <Wrapper>
-            <InputDiv onSubmit={addTodo}>
+            <InputDiv onSubmit={addTodo} dark={dark}>
                 <Checked onClick={handleCkecked} checked={checked}>
                     {checked ? <Img src="assets/svg/icon-check.svg" /> : null}
                 </Checked>
                 <Input
+                    dark={dark}
                     type={"text"}
                     onChange={handleChange}
+                    value={newTask}
+                    placeholder={'Create a new todo…'}
                 />
             </InputDiv>
-            <TodosDiv>
+            <TodosDiv dark={dark}>
                 {todoList.map((elem: any) => {
                     return (
-                        <Todos>
+                        <Todos dark={dark}>
                             <Checked onClick={() => completeTask(elem.id)} checked={elem.completed} >
                                 {elem.completed ? <Img src="assets/svg/icon-check.svg" /> : null}
                             </Checked>
-                            <ListItem completed={elem.completed}>{elem.taskName}</ListItem>
+                            <ListItem completed={elem.completed} dark={dark}>{elem.taskName}</ListItem>
                             <Delete
                                 onClick={() => deleteTask(elem.id)}
                             ><Img src="assets/svg/icon-cross.svg" /></Delete>
@@ -94,6 +102,7 @@ const InputDiv = styled.form<Props>`
     border-radius: 5px;
     background-color: ${props => props.dark ? '#25273D' : 'white'} ;
     transition: all .5s;
+    padding: 0 20px;
 `
 const Checked = styled.div<Props>`
     width: 20px;
@@ -109,20 +118,45 @@ const Img = styled.img`
     
 `
 
-const Input = styled.input`
+const Input = styled.input<Props>`
     background-color: transparent;
+    font-size: 12px;
+    border: none;
+    margin-left: 12px;
+    outline: none;
+    width: 80%;
+    color: ${props => props.dark ? '#767992' : '#9495A5'};
 `
-const TodosDiv = styled.div`
-    
+const TodosDiv = styled.div<Props>`
+    background-color: red;
+    margin-top: 16px;
+    border-radius: 5px;
+    background-color: ${props => props.dark ? '#25273D' : 'white'} ;
+    transition: .5s;
+    /* height: 500px;
+    overflow-y: auto; */
 `
-const Todos = styled.ul`
+const Todos = styled.ul<Props>`
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    border-bottom: ${props => props.dark ? "1px solid #393A4B" : "1px solid #E3E4F1"};
+    padding: 0 20px;
+    transition: .5s;
 `
 const ListItem = styled.li<Props>`
     text-decoration: none;
     list-style: none;
     text-decoration: ${props => props.completed ? "line-through" : 'none'};
+    height: auto;
+    width: 210px;
+    padding: 16px 0;
+    font-size: 12px;
+    display: flex;
+    word-break: break-all;
+    align-items: center;
+    color: ${props => props.dark ? '#C8CBE7' : '#494C6B'};
+   //color: ${props => props.completed && !props.dark ? '#4D5067' : '#D1D2DA'}
 `
 
 const Delete = styled.button`

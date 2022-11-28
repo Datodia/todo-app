@@ -16,7 +16,6 @@ function App() {
         <Header setDark={setDark} dark={dark} />
         <TodoList dark={dark} />
       </Top>
-
     </Body>
   );
 }
@@ -31,7 +30,8 @@ const Top = styled.div<Props>`
 `
 
 const Body = styled.div<Props>`
-  height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
   background-color: ${props => props.dark ? '#181723' : 'white'};
   transition: all .5s;
 `

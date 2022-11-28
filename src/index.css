@@ -13,4 +13,11 @@ body {
   margin: 0;
   font-family: "Josefin Sans";
   font-weight: 400;
+  /* min-width: 100vh; */
+  /* background-color: #181723; */
+
+}
+
+input {
+  font-family: "Josefin Sans";
 }
