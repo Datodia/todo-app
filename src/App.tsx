@@ -27,6 +27,14 @@ const Top = styled.div<Props>`
   height: 200px;
   background-image: url(${props => props.dark ? 'assets/bg-mobile-dark.jpg' : 'assets/bg-mobile-light.jpg'});
   transition: all .5s;
+
+  @media screen and (min-width: 375px) {
+    background-image: url(${props => props.dark ? 'assets/bg-desktop-dark.jpg' : 'assets/bg-desktop-light.jpg'});
+  }
+  @media screen and (min-width: 768px) {
+    height: 300px;
+    background-size: 100vw, 100vh;
+  }
 `
 
 const Body = styled.div<Props>`

@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Props, Todo } from "../../Interface"
 import { useState } from 'react'
 
-export const TodoList = ({ dark, value }: Props) => {
+export const TodoList = ({ dark }: Props) => {
 
     const [checked, setChecked] = useState<boolean>(false)
     const [newTask, setNewTask] = useState<string>("")
@@ -146,7 +146,9 @@ const Wrapper = styled.div`
     margin: auto;
     margin-top: 40px;
     height: 500px;
-    border: 1px solid red;
+    @media screen and (min-width: 768px) {
+        width: 540px;
+    }
 `
 
 const InputDiv = styled.form<Props>`
@@ -158,6 +160,9 @@ const InputDiv = styled.form<Props>`
     background-color: ${props => props.dark ? '#25273D' : 'white'} ;
     transition: all .5s;
     padding: 0 20px;
+    @media screen and (min-width: 768px) {
+        height: 64px;
+    }
 `
 const Checked = styled.div<Props>`
     width: 20px;
@@ -167,7 +172,11 @@ const Checked = styled.div<Props>`
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-image: ${props => props.checked ? 'linear-gradient(#55DDFF, #C058F3) ' : null} 
+    background-image: ${props => props.checked ? 'linear-gradient(#55DDFF, #C058F3) ' : null};
+    @media screen and (min-width: 768px) {
+        width: 24px;
+        height: 24px;
+    }
 `
 const Img = styled.img`
     
@@ -181,6 +190,9 @@ const Input = styled.input<Props>`
     outline: none;
     width: 80%;
     color: ${props => props.dark ? '#767992' : '#9495A5'};
+    @media screen and (min-width: 768px) {
+        font-size: 18px;
+    }
 `
 const TodosDiv = styled.div<Props>`
     background-color: red;
@@ -188,7 +200,6 @@ const TodosDiv = styled.div<Props>`
     border-radius: 5px;
     background-color: ${props => props.dark ? '#25273D' : 'white'} ;
     transition: .5s;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `
 const Todos = styled.ul<Props>`
     display: flex;
@@ -205,13 +216,18 @@ const ListItem = styled.li<Props>`
     text-decoration: ${props => props.completed ? "line-through" : 'none'};
     height: auto;
     width: 210px;
-    padding: 16px 0;
+    padding: 21px 0;
     font-size: 12px;
     display: flex;
     word-break: break-all;
     align-items: center;
     color: ${props => props.dark ? '#C8CBE7' : '#494C6B'};
-   //color: ${props => props.completed && !props.dark ? '#4D5067' : '#D1D2DA'}
+
+    @media screen and (min-width: 768px) {
+        font-size: 18px;
+        width: 300px;
+        transform: translateX(-60px);
+    }
 `
 
 const Delete = styled.button`
@@ -232,12 +248,23 @@ const ButtonDiv = styled.div<Props>`
     justify-content: center;
     gap: 15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    @media screen and (min-width: 768px) {
+        height: 50px;
+        background: transparent;
+        transform: translateY(-50px);
+        width: 260px;
+        margin: auto;
+        box-shadow: none;
+    }
 `
 
 const ActiveBtn = styled.h1`
     font-size: 14px;
     color: #5B5E7E;
     cursor: pointer;
+    &:hover{
+        color: #3A7CFD;
+    }
 `
 
 const Items = styled.div<Props>`
@@ -250,9 +277,16 @@ const Items = styled.div<Props>`
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    @media screen and (min-width: 768px) {
+        height: 50px;
+    }
 `
 const Left = styled.h1`
     font-size: 14px;
     color: #5B5E7E;
     cursor: pointer;
+    &:hover{
+        color: #3A7CFD;
+    }
 `
