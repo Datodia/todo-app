@@ -9,7 +9,7 @@ export interface Props {
 
 export interface Todo {
     id: number;
-    taskName: any;
+    taskName: string;
     completed: boolean;
 }
 
