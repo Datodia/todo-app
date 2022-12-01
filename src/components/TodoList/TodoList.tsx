@@ -33,15 +33,15 @@ export const TodoList = ({ dark, value }: Props) => {
     }
 
     const deleteTask = (id: number) => {
-        // setTodoList(
-        //     todoList.filter((item) => {
-        //         return item.id !== id;
-        //     })
-        // )
         let newTodo = todoList.filter((name) => name.id !== id);
         let newTodo2 = filteredTodo.filter((name) => name.id !== id);
         setTodoList(newTodo);
         setFilteredTodo(newTodo2);
+    }
+
+    const deleteTodos = () => {
+        setTodoList([])
+        setFilteredTodo([])
     }
 
     const filterHandler = (status: string) => {
@@ -126,7 +126,12 @@ export const TodoList = ({ dark, value }: Props) => {
                         </Todos>
                     )
                 })}
+
             </TodosDiv>}
+            <Items dark={dark}>
+                <Left>{todoList.length} items left</Left>
+                <Left onClick={deleteTodos}>Clear Tasks</Left>
+            </Items>
             <ButtonDiv dark={dark}>
                 <ActiveBtn onClick={() => filterHandler('all')}>All</ActiveBtn>
                 <ActiveBtn onClick={() => filterHandler('active')}>Actve</ActiveBtn>
@@ -183,8 +188,7 @@ const TodosDiv = styled.div<Props>`
     border-radius: 5px;
     background-color: ${props => props.dark ? '#25273D' : 'white'} ;
     transition: .5s;
-    /* height: 500px;
-    overflow-y: auto; */
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `
 const Todos = styled.ul<Props>`
     display: flex;
@@ -193,6 +197,7 @@ const Todos = styled.ul<Props>`
     border-bottom: ${props => props.dark ? "1px solid #393A4B" : "1px solid #E3E4F1"};
     padding: 0 20px;
     transition: .5s;
+    
 `
 const ListItem = styled.li<Props>`
     text-decoration: none;
@@ -226,9 +231,28 @@ const ButtonDiv = styled.div<Props>`
     align-items: center;    
     justify-content: center;
     gap: 15px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `
 
 const ActiveBtn = styled.h1`
     font-size: 14px;
     color: #5B5E7E;
+    cursor: pointer;
+`
+
+const Items = styled.div<Props>`
+    width: 100%;
+    height: 48px;
+    background-color: ${props => props.dark ? '#25273D' : 'white'} ;
+    transition: .5s;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+`
+const Left = styled.h1`
+    font-size: 14px;
+    color: #5B5E7E;
+    cursor: pointer;
 `
