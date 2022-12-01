@@ -6,3 +6,10 @@ export interface Props {
     completed?: boolean;
     value?: string;
 }
+
+export interface Todo {
+    id: number;
+    taskName: any;
+    completed: boolean;
+}
+

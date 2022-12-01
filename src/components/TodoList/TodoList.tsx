@@ -1,19 +1,20 @@
 import styled from "styled-components"
-import { Props } from "../../Interface"
+import { Props, Todo } from "../../Interface"
 import { useState } from 'react'
 
 export const TodoList = ({ dark, value }: Props) => {
 
     const [checked, setChecked] = useState<boolean>(false)
     const [newTask, setNewTask] = useState<string>("")
-    const [todoList, setTodoList] = useState<any>([])
+    const [todoList, setTodoList] = useState<Todo[]>([])
+    const [filteredTodo, setFilteredTodo] = useState<Todo[]>(todoList);
+    const [showFilter, setShowFilter] = useState<boolean>(false);
 
     const handleCkecked = () => {
         setChecked(!checked)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
         setNewTask(e.target.value)
     }
 
@@ -26,22 +27,51 @@ export const TodoList = ({ dark, value }: Props) => {
         }
         if (newTask !== '' && newTask.trim()) {
             setTodoList([...todoList, task])
+            setFilteredTodo([...todoList, task])
             setNewTask("")
         }
-
     }
 
     const deleteTask = (id: number) => {
-        setTodoList(
-            todoList.filter((item: any) => {
-                return item.id !== id;
-            })
-        )
+        // setTodoList(
+        //     todoList.filter((item) => {
+        //         return item.id !== id;
+        //     })
+        // )
+        let newTodo = todoList.filter((name) => name.id !== id);
+        let newTodo2 = filteredTodo.filter((name) => name.id !== id);
+        setTodoList(newTodo);
+        setFilteredTodo(newTodo2);
+    }
+
+    const filterHandler = (status: string) => {
+        if (status === 'active') {
+            setShowFilter(true)
+            setFilteredTodo(todoList.filter((item) => item.completed === false))
+        } else if (status === 'completed') {
+            setShowFilter(true);
+            setFilteredTodo(todoList.filter((item) => item.completed === true));
+        } else {
+            setShowFilter(false);
+            setTodoList(todoList);
+        }
     }
 
     const completeTask = (id: number) => {
         setTodoList(
-            todoList.map((task: any) => {
+            todoList.map((task) => {
+                if (task.id === id && task.completed === false) {
+                    return { ...task, completed: true }
+                } else if (task.id === id && task.completed === true) {
+                    return { ...task, completed: false }
+                } else {
+                    return task
+                }
+            })
+        )
+
+        setFilteredTodo(
+            filteredTodo.map((task) => {
                 if (task.id === id && task.completed === false) {
                     return { ...task, completed: true }
                 } else if (task.id === id && task.completed === true) {
@@ -67,7 +97,7 @@ export const TodoList = ({ dark, value }: Props) => {
                     placeholder={'Create a new todo…'}
                 />
             </InputDiv>
-            <TodosDiv dark={dark}>
+            {!showFilter && <TodosDiv dark={dark}>
                 {todoList.map((elem: any) => {
                     return (
                         <Todos dark={dark}>
@@ -81,7 +111,27 @@ export const TodoList = ({ dark, value }: Props) => {
                         </Todos>
                     )
                 })}
-            </TodosDiv>
+            </TodosDiv>}
+            {showFilter && <TodosDiv dark={dark}>
+                {filteredTodo.map((elem: any) => {
+                    return (
+                        <Todos dark={dark}>
+                            <Checked onClick={() => completeTask(elem.id)} checked={elem.completed} >
+                                {elem.completed ? <Img src="assets/svg/icon-check.svg" /> : null}
+                            </Checked>
+                            <ListItem completed={elem.completed} dark={dark}>{elem.taskName}</ListItem>
+                            <Delete
+                                onClick={() => deleteTask(elem.id)}
+                            ><Img src="assets/svg/icon-cross.svg" /></Delete>
+                        </Todos>
+                    )
+                })}
+            </TodosDiv>}
+            <ButtonDiv dark={dark}>
+                <ActiveBtn onClick={() => filterHandler('all')}>All</ActiveBtn>
+                <ActiveBtn onClick={() => filterHandler('active')}>Actve</ActiveBtn>
+                <ActiveBtn onClick={() => filterHandler('completed')}>Completed</ActiveBtn>
+            </ButtonDiv>
         </Wrapper>
     )
 }
@@ -162,4 +212,23 @@ const ListItem = styled.li<Props>`
 const Delete = styled.button`
     background: none;
     border: none;
+`
+
+const ButtonDiv = styled.div<Props>`
+    width: 100%;
+    height: 48px;
+    border-radius: 5px;
+    background-color: ${props => props.dark ? '#25273D' : 'white'} ;
+    transition: .5s;
+    margin-top: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+    gap: 15px;
+`
+
+const ActiveBtn = styled.h1`
+    font-size: 14px;
+    color: #5B5E7E;
 `
